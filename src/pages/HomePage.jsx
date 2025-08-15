@@ -121,59 +121,65 @@ useEffect(() => {
         <LoadingSpinner />
       ) : (
         <div className="mt-10 px-10 space-y-10">
-          {dates.map((date) => (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              key={date}
-            >
-              <h2 className="sm:text-3xl text-xl font-extrabold text-white mb-8 pb-4 border-b border-white/20">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-400">
-                  Events for:
-                </span>
-                <span className="ml-2">{date}</span>
-              </h2>
+  {dates
+    .filter(date => neo?.near_earth_objects?.[date]?.length > 0)
+    .map((date) => (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        key={date}
+      >
+        <h2 className="sm:text-3xl text-xl font-extrabold text-white mb-8 pb-4 border-b border-white/20">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-400">
+            Events for:
+          </span>
+          <span className="ml-2">{date}</span>
+        </h2>
 
-              <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                animate="show"
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              >
-                {neo?.near_earth_objects?.[date]?.map((event) => {
-                  const avgDiameter = (
-                    (event.estimated_diameter.kilometers.estimated_diameter_min +
-                      event.estimated_diameter.kilometers.estimated_diameter_max) /
-                    2
-                  ).toFixed(2);
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          {neo?.near_earth_objects?.[date]?.map((event) => {
+            const avgDiameter = (
+              (event.estimated_diameter.kilometers.estimated_diameter_min +
+                event.estimated_diameter.kilometers.estimated_diameter_max) /
+              2
+            ).toFixed(2);
 
-                  const closeApproach = event.close_approach_data[0];
-                  const approachDate = closeApproach.close_approach_date_full;
+            const closeApproach = event.close_approach_data[0];
+            const approachDate = closeApproach.close_approach_date_full;
 
-                  return (
-                    <EventCard
-                      key={event.id}
-                      event={event}
-                      avgDiameter={avgDiameter}
-                      approachDate={approachDate}
-                    />
-                  );
-                })}
-              </motion.div>
-            </motion.div>
-          ))}
-          {!showAll && dateError === "" && dates.length < getDatesBetween(startDate, endDate).length && (
-            <div className="mt-10 text-center">
-              <button
-                onClick={() => setShowAll(true)}
-                className="bg-gradient-to-br from-blue-500 to-indigo-600 px-6 py-3 rounded-2xl"
-              >
-                Load More
-              </button>
-            </div>
-          )}
-        </div>
+            return (
+              <EventCard
+                key={event.id}
+                event={event}
+                avgDiameter={avgDiameter}
+                approachDate={approachDate}
+              />
+            );
+          })}
+        </motion.div>
+      </motion.div>
+    ))}
+
+  {!showAll &&
+    dateError === "" &&
+    dates.length < getDatesBetween(startDate, endDate).length && (
+      <div className="mt-10 text-center">
+        <button
+          onClick={() => setShowAll(true)}
+          className="bg-gradient-to-br from-blue-500 to-indigo-600 px-6 py-3 rounded-2xl"
+        >
+          Load More
+        </button>
+      </div>
+    )}
+</div>
+
       )}
     </div>
   );
