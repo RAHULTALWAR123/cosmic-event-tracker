@@ -28,7 +28,7 @@ const LoadingSpinner = () => {
               repeatType: "reverse"
             }
           }}
-          className="w-24 h-24 rounded-full border-8 border-[#4bfb24]/20 border-t-[#4bfb24] border-r-[#4bfb24]"
+          className="w-24 h-24 rounded-full border-8 border-[#4bfb24]/20 border-t-[#2436fb] border-r-[#2436fb]"
         />
         
         {/* Loading text with fading animation */}
@@ -38,7 +38,7 @@ const LoadingSpinner = () => {
             duration: 1.5,
             repeat: Infinity 
           }}
-          className="text-lg font-medium font-mono text-[#4bfb24]/80"
+          className="text-lg font-medium font-mono text-[#2436fb]/50"
         >
           Loading content...
         </motion.p>
@@ -54,7 +54,7 @@ const LoadingSpinner = () => {
               repeatType: "reverse",
               ease: "easeInOut"
             }}
-            className="h-full bg-gradient-to-r from-[#4bfb24] to-[#4bfb24]/80"
+            className="h-full bg-gradient-to-r from-[#2427fb] to-[#2436fb]/80"
           />
         </div>
       </motion.div>

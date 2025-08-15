@@ -12,7 +12,7 @@ const { startDate, endDate } = useDateStore();
     const getNEO = async() => {
         setLoading(true);
         try {
-            const res = await fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${startDate}&end_date=${endDate}&api_key=V4wsiuDPl2fgRtWyBz1If6cw9WLg0lGWLvE64JTl`);
+            const res = await fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${startDate}&end_date=${endDate}&api_key=${import.meta.env.VITE_NASA_API_KEY}`);
             const data = await res.json();
             console.log(data);
             setNeo(data);

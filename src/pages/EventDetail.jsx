@@ -28,7 +28,7 @@ function EventDetail() {
 
   const getCurrentNeo = async () => {
     const res = await fetch(
-      `https://api.nasa.gov/neo/rest/v1/neo/${id}?api_key=V4wsiuDPl2fgRtWyBz1If6cw9WLg0lGWLvE64JTl`
+      `https://api.nasa.gov/neo/rest/v1/neo/${id}?api_key=${import.meta.env.VITE_NASA_API_KEY}`
     );
     const data = await res.json();
     setNeo(data);
