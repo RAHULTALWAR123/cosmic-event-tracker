@@ -15,11 +15,7 @@ function HomePage() {
   const [showAll, setShowAll] = useState(false);
   const [dateError, setDateError] = useState("");
 
-  const formatDate = (date) => {
-    return new Date(date).toISOString().split("T")[0];
-  };
-
-  function getDatesBetween(start, end) {
+  function getDatesBetween(start, end) { 
     const dateArray = [];
     let currentDate = new Date(start);
     while (currentDate <= new Date(end)) {
