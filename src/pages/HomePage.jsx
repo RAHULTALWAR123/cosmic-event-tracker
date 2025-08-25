@@ -16,6 +16,8 @@ function HomePage() {
   const [dates, setDates] = useState([]);
   const [showAll, setShowAll] = useState(false);
   const [dateError, setDateError] = useState("");
+  const [field,setField] = useState("");
+  const [buttonClick,setButtonClick] = useState(false);
    const { selected } = useCompareStore();
   const navigate = useNavigate();
 
@@ -27,6 +29,10 @@ function HomePage() {
       currentDate.setDate(currentDate.getDate() + 1);
     }
     return dateArray;
+  }
+
+  const handleSubmit  = () => {
+    console.log(field);
   }
 
 useEffect(() => {
@@ -117,7 +123,26 @@ useEffect(() => {
       />
     </div>
   </div>
+
+  <div className="flex flex-col items-center">
+    <div className="relative">
+      <input
+        type="number"
+        placeholder="Enter Diamter"
+        value={field}
+        onChange={(e) => {setField(e.target.value)}}
+        className="px-4 py-2 rounded-lg bg-gray-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 border border-gray-600 hover:border-gray-500 transition-all cursor-pointer shadow-md"
+      />
+    </div>
+    <button onClick={() => {handleSubmit,setButtonClick(true)}} className=" mt-2 px-4 py-2 rounded-lg bg-indigo-500 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 border border-gray-600 hover:border-gray-500 transition-all cursor-pointer shadow-md">
+      Enter
+    </button>
+  </div>
+
+
 </div>
+
+
 
 <div>
 <p className="sm:text-sm text-xs text-gray-500 text-center">
@@ -155,7 +180,9 @@ useEffect(() => {
           animate="show"
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {neo?.near_earth_objects?.[date]?.map((event) => {
+          {!buttonClick ? (
+          <>
+{neo?.near_earth_objects?.[date]?.map((event) => {
             const avgDiameter = (
               (event.estimated_diameter.kilometers.estimated_diameter_min +
                 event.estimated_diameter.kilometers.estimated_diameter_max) /
@@ -174,6 +201,40 @@ useEffect(() => {
               />
             );
           })}
+          </>
+        ) : (
+          <>
+          {neo?.near_earth_objects?.[date]?.filter((event) => {
+const avgDiameter = (
+              (event.estimated_diameter.kilometers.estimated_diameter_min +
+                event.estimated_diameter.kilometers.estimated_diameter_max) /
+              2
+            ).toFixed(2);
+
+            return avgDiameter >= parseFloat(field || 0)
+          
+          }).map((event) => {
+            const avgDiameter = (
+              (event.estimated_diameter.kilometers.estimated_diameter_min +
+                event.estimated_diameter.kilometers.estimated_diameter_max) /
+              2
+            ).toFixed(2);
+
+            const closeApproach = event.close_approach_data[0];
+            const approachDate = closeApproach.close_approach_date_full;
+
+            return (
+              <EventCard
+                key={event.id}
+                event={event}
+                avgDiameter={avgDiameter}
+                approachDate={approachDate}
+              />
+            );
+          })
+          }
+          </>
+          )}
         </motion.div>
       </motion.div>
     ))}
