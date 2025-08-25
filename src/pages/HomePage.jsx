@@ -6,6 +6,8 @@ import EventCard from "../components/EventCard";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { motion } from "framer-motion";
 import { useDateStore } from "../stores/useDateStore";
+import { useCompareStore } from "../stores/useCompareStore";
+import { useNavigate } from "react-router-dom";
 
 
 function HomePage() {
@@ -14,6 +16,8 @@ function HomePage() {
   const [dates, setDates] = useState([]);
   const [showAll, setShowAll] = useState(false);
   const [dateError, setDateError] = useState("");
+   const { selected } = useCompareStore();
+  const navigate = useNavigate();
 
   function getDatesBetween(start, end) { 
     const dateArray = [];
@@ -73,6 +77,18 @@ useEffect(() => {
           See all latest events
         </p>
       </div>
+
+<div className="text-center mt-10">
+
+       {selected.length > 0 && (
+         <button
+         onClick={() => navigate("/compare")}
+         className="bg-gradient-to-br from-indigo-500 to-blue-500 px-5 py-2 rounded-xl font-medium shadow-md"
+         >
+            Compare ({selected.length})
+          </button>
+        )}
+        </div>
 
       <div className="mt-10 flex justify-center items-center sm:gap-4 py-4">
   

@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage";
 import EventDetail from "./pages/EventDetail";
 import Header from "./components/Header";
 import { Toaster } from "react-hot-toast";
+import ComparePage from "./pages/ComparePage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/event/:id" element={<EventDetail />} />
+          <Route path="/compare" element={<ComparePage />} />
         </Routes>
       </BrowserRouter>
 
